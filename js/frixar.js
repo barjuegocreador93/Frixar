@@ -159,7 +159,9 @@ function f_e(name,type,p,fun) {
 
 function f_v(cntrl) {
   var view ={view:fun};
-  var self = f_s(cntrl,'view').service;
+  var self = f_b('service.view',cntrl,function (base) {
+    base.sc=view.view();
+  });
   cntrl.AddHijo(self);
   self.SetName('$fv.'+cntrl.Padre().Name+'.'+cntrl.Name);
 
@@ -167,13 +169,6 @@ function f_v(cntrl) {
   {
     self.sc.$apply();
   };
-  self.fun = fun;
-  fun.$inyect = [];
-  self.sc = fun();
-  fun.Call=function()
-  {
-    return self.sc;
-  }
 
   function fun(){
     var scope={};
@@ -257,7 +252,7 @@ function f_v(cntrl) {
     self.sc = sc;
     return sc;
   };
-
+  fun.$inyect = [];
   return self;
 }
 
@@ -269,7 +264,7 @@ function f_i(fun,padre,finder){
       console.log(v);
       if(data!=null)
       {
-          if(data.HasType('serivice'))data=data.fun;
+          if(base.Padre().HasType('service')&& data.HasType('view'))data=data.sc;
           result.push(data);
       }
 
@@ -283,6 +278,10 @@ function f_i(fun,padre,finder){
   return inyect;
 }
 
+function finder_services(name,base){
+
+}
+
 function f_c(parent){
   var cntrl={};
   var pprop = {};
@@ -292,12 +291,12 @@ function f_c(parent){
     var inyect = f_i(pprop.$cfun,base,function(name){
       if (name.includes('$fv')){
         if(name=='$fv')
-          return base.FindByNameAndType('$fv.'+base.Padre().Name+'.'+base.Name,'view');
+          return base.FindByNameAndType('$fv.'+base.Padre().Name+'.'+base.Name,'service.view');
         return null;
       }else {
         if (name.includes('$router')){
           if(name=='$router')
-            return base.Root().FindByNameAndType('$router.'+base.Padre().Name,'router');
+            return base.Padre().FindByNameAndType('$router.'+base.Padre().Name,'router');
           return null;
         }
       }
@@ -330,7 +329,12 @@ function f_c(parent){
   self.Call=function () {
     var args = [];
     pprop.$cfun.$inyectResult.forEach(function (v) {
-      args.push(v.Call());
+
+      if(v.HasType('view'))
+      {
+        args.push(v.sc);
+      }else
+      args.push(v.fun.apply(this,v.fun.$inyectResult));
     });
     pprop.$cfun.apply(this,args);
     pprop.$cfun.$inyectResult.forEach(function (v) {
@@ -354,13 +358,7 @@ function f_s(md,type){
    });
    maker.service = self;
 
-   maker.service.Caller = function () {
-     for self.fun.$inyectResult.forEach(function (v,ind) {
-       if(typeof v == 'function')
-         self.fun.$inyectResult[ind]=v.Call();
-     });
-     return self.fun.apply(this,self.fun.$inyectResult);
-   }
+   
 
 
    self.After=function(){};
@@ -368,9 +366,8 @@ function f_s(md,type){
 
    maker.Service=function (name,inyects,fun) {
      maker.service.SetName(name);
-     self.fun = fun;
-     self.fun.$inyect = inyects;
-     self.fun.Call = self.Caller;
+     maker.service.fun = fun;
+     maker.service.fun.$inyect = inyects;
    };
 
    return maker;
@@ -378,8 +375,7 @@ function f_s(md,type){
 
 function f_r(md){
   var router = {};
-  var self = f_s(md,'router').service;
-  {
+  var self = f_s(md,'router').service;{
     self.SetName('$router.'+md.Name)
     self.fun = function () {
       var rs ={}
@@ -390,8 +386,6 @@ function f_r(md){
       return rs;
     };
     self.fun.$inyect=[];
-    self.fun.Call = self.Caller;
-
   }
 
   self.After =function () {

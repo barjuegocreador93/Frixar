@@ -1,0 +1,2 @@
+
+frixar('app');

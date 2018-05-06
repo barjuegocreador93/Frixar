@@ -1,2 +1,2 @@
 
-frixar('app');
+var app=frixar('app',['$router']);

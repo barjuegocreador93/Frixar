@@ -1,7 +1,11 @@
 
 
-frixar("app").Controller('appController',['wow'],function(fv,wow){
-  fv.title = 'My App';
-}).Service('wow',['$fv.app.appController','$router.app'],function (fvc,r) {
+
+
+frixar('app').Controller('appController',['wow', '$router'],function(fv,wow,r){
+  fv.title = 'My App';  
   console.log(r);
+}).Service('wow',['$router'],function (r) {
+    console.log(r);
+  return {saludo:'hola'};
 });

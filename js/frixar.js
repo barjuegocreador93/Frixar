@@ -63,8 +63,6 @@
                 $('html').show();
         };
     };
-
-
     function f_b(type, parent, fun) {
         var base = {IsReady: false};
         var self = {$name: '', $type: 'base.' + type, $padre: parent, $hijos: [], base: base, $index: -1};
@@ -220,7 +218,6 @@
         };
         return base;
     }
-
     function f_i(fun, padre, finder) {
         var inyect = f_b('inject', padre, function (base) {
             var result = [];
@@ -240,8 +237,7 @@
         });
 
         return inyect;
-    }
-
+      }
     function f_s(type, md, fun) {
 
         var self = f_b('service.' + type, md, function (base) {
@@ -307,16 +303,12 @@
 
         return self;
     }
-
-
-
     function f_e(name, type, p, fun) {
         var self = f_b('event.' + type, p, function (base) {});
         p.AddHijo(self);
         self.e = fun;
         self.SetName(name);
     }
-
     function f_v(cntrl) {
         var self = f_s('view', cntrl, function (base) {
             base.fun = fun;
@@ -417,7 +409,6 @@
         ;
         self.Run();
     }
-
     function f_c(parent) {
         var cntrl = {};
         var pprop = {};
@@ -466,7 +457,6 @@
         };
         return cntrl;
     }
-
     var frixar = function (name, inyect) {
         var fram = {};
         var pprop = {};

@@ -3,7 +3,7 @@
 /**
  script:
  name: Frixar
- version : 0.1.0
+ version : 0.1.1
  scripters:
  name: Camilo Barbosa
  email: cab331@hotmail.com
@@ -15,13 +15,16 @@
 
 (function (global, $, Mustache, frixar) {
     " user extrict ";
-    global.frixar = frixar($, Mustache);
+    var frixar = frixar($, Mustache);
+
+    global.frixar = frixar.framework;
 
 }(this, jQuery, Mustache, function ($, Mustache) {
     " user extrict ";
     var f_fc = new function () {
         $('html').hide();
         this.modules = [];
+        this.packages = [];
         this.fetch = false;
         this.ChargeTime = 0;
         this.EventsTime = 5;
@@ -238,6 +241,7 @@
 
         return inyect;
       }
+
     function f_s(type, md, fun) {
 
         var self = f_b('service.' + type, md, function (base) {
@@ -457,6 +461,7 @@
         };
         return cntrl;
     }
+
     var frixar = function (name, inyect) {
         var fram = {};
         var pprop = {};
@@ -472,6 +477,8 @@
                 });
 
         });
+
+
 
         self.SetName(name);
 
@@ -503,7 +510,6 @@
         fram.Service = Service;
         fram.Controller = Controller;
         fram.Debug = Debug;
-
 
 
 
@@ -540,14 +546,38 @@
         }
     };
 
-    frixar('$router').Service('$router',[],function () {
-        var router={};
+    function frixarPackage(name) {
+      var pg = {};
+      var prop = {dir:{},typer:{
+        srv:{class:f_s,init:null,After:null,OnReady:null,fun:null,inyect:[],Call:null}
+      }};
+      var typer = {};
+      var service ={};
+      pg.Folder = Folder;
+      pg.File  = $File;
+      typer.Service = Service;
+      service.After = srvAfter;
+      service.OnReady = srvOready;
+      service.Define = srvDefine;
+      service.
+      return pg;
+
+      function Folder(name) {
+
+        return pg;
+      }
+
+      function $File(name) {
+
+        return typer;
+      }
+
+      function Service() {
+
+        return service;
+      }
+    }
 
 
-
-        return router;
-    });
-
-
-    return frixar;
+    return {framework:frixar , packageFactory:frixarPackage};
 }));

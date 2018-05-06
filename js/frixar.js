@@ -1,13 +1,14 @@
 /* global Mustache */
 
 /**
- script:
- name: Frixar
- version : 0.1.1
- scripters:
- name: Camilo Barbosa
- email: cab331@hotmail.com
- about: A js script to control the views at moderns webs.
+ *script:
+ **name: Frixar
+ **version : 0.1.2
+ *scripters:
+ **id:1
+ **name: Camilo Barbosa
+ **email: cab331@hotmail.com
+ **about: A js script to control the views at moderns webs.
 
  Depends: jQuery, Mustache
 
@@ -18,13 +19,14 @@
     var frixar = frixar($, Mustache);
 
     global.frixar = frixar.framework;
+    global.frixarFactory = frixar.packageFactory;
 
 }(this, jQuery, Mustache, function ($, Mustache) {
     " user extrict ";
     var f_fc = new function () {
         $('html').hide();
         this.modules = [];
-        this.packages = [];
+        this.packages = {};
         this.fetch = false;
         this.ChargeTime = 0;
         this.EventsTime = 5;
@@ -66,6 +68,72 @@
                 $('html').show();
         };
     };
+
+    function frixarPackage(name) {
+      var pg = {};
+      var prop = {dir:{},cursor:null,typer:{
+        srv:{class:f_s,name:'',init:null,After:null,OnReady:null,fun:null,inyect:[]}
+      }};
+      var typer = {};
+      var service ={};
+      pg.File  = $File;
+      typer.Service = Service;
+
+      function validations(name){
+        name= name.replace(' ','_').replace('$','*');
+      }(name);
+      var spname = name.split('.');
+      if(!f_fc.packages[spname[0]] )
+      {
+          prop.cursor = f_fc.packages;
+          for(var v in spname)
+          {
+          if(!prop.cursor[spname[v]])
+              prop.cursor=prop.cursor[spname[v]]={$type:'folder'};
+          else {
+            prop.cursor=prop.cursor[spname[v]];
+            prop.cursor=prop.cursor[spname[v]]={$type:'folder'};
+          }
+          }
+          return pg;
+      }
+      console.error('Package allready exist!');
+
+      function $File(name) {
+        validations(name);
+        if(!prop.cursor[spname[v]])
+          prop.cursor=prop.cursor[name]={$type:'file'};
+        else {
+          prop.cursor=prop.cursor[spname[v]];
+          prop.cursor=prop.cursor[spname[v]]={$type:'file'};
+        }
+
+        return typer;
+      }
+
+      function Service(name,inyect,define,After,OnReady) {
+        prop.cursor.$type='srv';
+        prop.cursor.$data = prop.typer.srv;
+        if(typeof name == 'string')prop.cursor.$data.name = name;
+        if(typeof inyect == 'array')prop.cursor.$data.inyect = inyect;
+        if(typeof After == 'function')prop.cursor.$data.fun = define;
+        else prop.cursor.$data.fun = function () {};
+        if(typeof After == 'function')prop.cursor.$data.After = After;
+        else prop.cursor.$data.After = function () {};
+        if(typeof OnReady == 'function')prop.cursor.$data.OnReady = OnReady;
+        else prop.cursor.$data.OnReady = function () {};
+
+        prop.cursor.$data.init = function(base){
+          base.maker.Inyection(base,base.maker.FinderService);
+        };
+
+      }
+
+
+
+    }
+
+
     function f_b(type, parent, fun) {
         var base = {IsReady: false};
         var self = {$name: '', $type: 'base.' + type, $padre: parent, $hijos: [], base: base, $index: -1};
@@ -415,6 +483,7 @@
     }
     function f_c(parent) {
         var cntrl = {};
+        var psing={};
         var pprop = {};
         var self = f_s('cntrl', parent, function (base) {
             base.Fv = f_v(base);
@@ -465,7 +534,7 @@
     var frixar = function (name, inyect) {
         var fram = {};
         var pprop = {};
-
+        psing={};
         var self = f_b('module', null, function (base) {
             if (pprop.$inyect)
                 pprop.$inyect.forEach(function (d) {
@@ -477,9 +546,6 @@
                 });
 
         });
-
-
-
         self.SetName(name);
 
         var d = f_fc.FindModelOrCreate(name, self);
@@ -510,7 +576,7 @@
         fram.Service = Service;
         fram.Controller = Controller;
         fram.Debug = Debug;
-
+        fram.Using = Using;
 
 
         return fram;
@@ -544,39 +610,52 @@
             }
             return fram;
         }
+
+        function Using(packagesName) {
+          function str_(namestr)
+          {
+            namestr = namestr.replace(' ','_').replace('$','*');
+            var spname = namestr.split('.');
+            psing.cursor = f_fc.packages;
+            for(var i in spname)
+            {
+              if(psing.cursor[spname[i]])
+                  psing.cursor=psing.cursor[spname[i]];
+              else {
+                console.error('Package not exist yet!');
+                return;
+              }
+            }
+
+            if(psing.cursor.$type=='srv')
+            {
+                var args = ['',self,psing.cursor.$data.init];
+                var srv = psing.cursor.$data.class.apply(this,args);
+                srv.OnReady = psing.cursor.$data.OnReady;
+                srv.After = psing.cursor.$data.After;
+                srv.Service(psing.cursor.$data.name,psing.cursor.$data.inyect,psing.cursor.$data.fun);
+            }
+
+            return fram;
+          }
+          if(typeof arguments[0] == 'string')
+          {
+            return str_(arguments[0]);
+          }
+          if(Array.isArray(arguments[0]))
+          {
+              for(var i in arguments[0])
+              {
+                str_(arguments[0][i]);
+              }
+              return fram;
+          }
+          console.error('error in using arguments!');
+
+        }
     };
 
-    function frixarPackage(name) {
-      var pg = {};
-      var prop = {dir:{},typer:{
-        srv:{class:f_s,init:null,After:null,OnReady:null,fun:null,inyect:[],Call:null}
-      }};
-      var typer = {};
-      var service ={};
-      pg.Folder = Folder;
-      pg.File  = $File;
-      typer.Service = Service;
-      service.After = srvAfter;
-      service.OnReady = srvOready;
-      service.Define = srvDefine;
-      service.
-      return pg;
 
-      function Folder(name) {
-
-        return pg;
-      }
-
-      function $File(name) {
-
-        return typer;
-      }
-
-      function Service() {
-
-        return service;
-      }
-    }
 
 
     return {framework:frixar , packageFactory:frixarPackage};

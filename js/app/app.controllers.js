@@ -1,12 +1,9 @@
 
 
+var app = frixar('app');
 
-
-frixar('app').Controller('appController',['wow', '$router'],function(fv,wow,r){
+app.Controller('appController',['myService'],function(fv,myService){
   fv.title = 'My App';
-  fv.List = ['owow','dag']; 
-  console.log(r);
-}).Service('wow',['$router'],function (r) {
-    console.log(r);
-  return {saludo:'hola'};
+  fv.List = ['owow','dag'];
+  console.log(myService);
 });

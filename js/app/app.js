@@ -1,2 +1,4 @@
 
-var app=frixar('app',['$router']);
+var app=frixar('app');
+
+app.Using(['examplePackage.myService']);

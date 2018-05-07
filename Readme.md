@@ -83,9 +83,9 @@
             });
     > Service can call a controllers `$fv` like `['$fv.app.appController','$fv.app2.app2Controller',...]` cause they be services too.
 
-  - ### Factory Service
-  > We can create a Class of service more powerfulls and with more control that locals services.
-  This services has 4 methods that cover a sectors of
+- ## Factory Service
+> We can create a Class of service more powerfulls and with more control that locals services.
+This services has 4 methods that cover a sectors of
 
 * #### Define
 > Is service function who is calling in controller.

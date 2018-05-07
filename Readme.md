@@ -109,4 +109,24 @@ Remember, they can return data.
       app.Using('packageName.ServiceName');
       ...
 
+> #### version 0.1.5:
+Inside de methods: `After`, `OnReady` and `Config` the first argument named `base` has a object: `$methods`.
+
+* ## base.$methods
+  * ### FindAllByType(`type`,`result`)
+    >find all in a `frixar app` objects by type and get public attributes.
+
+    > `type` is string  can be:  
+    * `app`:all frixar apps,  
+    * `factoryService`: all FactoryServices
+    * `controller`: all controllers
+
+    >`result` is array that get all results with object and their public attributes.
+    * `app: {Name}`
+    * `factoryService: {Name,extension}` extension is the base.
+    * `controller:{Name}`
+
+
+
+
   - # Router | FactoryService

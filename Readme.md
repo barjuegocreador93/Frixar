@@ -87,15 +87,15 @@
   > We can create a Class of service more powerfulls and with more control that locals services.
   This services has 4 methods that cover a sectors of
 
-    * #### Define
-      > Is service function who is calling in controller.
-      Remember, they can return data.
-    * #### OnReady
-      > Is calling when all frixars is reading.
-    * #### After
-      > Is calling when all controllers finish.
-    * #### Config
-      > Will call when 'frixar('app').Config('serviceName') was call.'
+* #### Define
+> Is service function who is calling in controller.
+Remember, they can return data.
+* #### OnReady
+> Is calling when all frixars is reading.
+* #### After
+> Is calling when all controllers finish.
+* #### Config
+> Will call when 'frixar('app').Config('serviceName') was call.'
 
 
       var

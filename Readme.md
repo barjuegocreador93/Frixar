@@ -85,7 +85,7 @@
 
 - ## Factory Service
 > We can create a Class of service more powerfulls and with more control that locals services.
-This services has 4 methods that cover a sectors of
+This services has 4 methods that cover a sectors of frixar app
 
 * #### Define
 > Is service function who is calling in controller.
@@ -138,4 +138,5 @@ Inside de methods: `After`, `OnReady` and `Config` the first argument named `bas
     >A object that contains a public attributes of current frixar app that using Config with us service.
 
 
-  - # Router | FactoryService
+  - # Router
+  > On dev: Will be a factoryService that will control the templates and controllers as a route url in the browser like: `#/Home`

@@ -2,8 +2,8 @@
 
 var app = frixar('app');
 
-app.Controller('appController',['myService'],function(fv,myService){
+app.Controller('appController',['myService','$r'],function(fv,myService,$r){
   fv.title = 'My App';
-  fv.List = ['owow','dag'];
-  console.log(myService);
+  fv.fNav = [{url:'#',text:'wow'},{url:'#',text:'other'}];
+  $r.travel('/locale');
 });

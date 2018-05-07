@@ -7,15 +7,35 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" charset="utf-8"></script>
     <script src="./js/mustache.js" charset="utf-8"></script>
     <script src="./js/frixar.js" charset="utf-8"></script>
+
     <script src="./js/factory/example.js" charset="utf-8"></script>
+    <script src="./js/factory/frixar-router.js" charset="utf-8"></script>
+
     <script src="./js/app/app.js" charset="utf-8"></script>
     <script src="./js/app/app.controllers.js" charset="utf-8"></script>
   </head>
   <body fx-c='appController'>
-    <h1  >{{title}}</h1>
-    {{Name}}
-    {{#List}}
-    {{.}}
-    {{/List}}
+    <header>
+      <h3>{{title}}</h3>
+    <nav>
+      {{#fNav}}
+      <a href="{{url}}">{{text}}</a>
+      {{/fNav}}
+    </nav>
+    </header>
+    <nav>
+
+    </nav>
+    <section>
+
+    </section>
+    <footer>
+      <h4>{{title}}</h4>
+      <ul>
+        {{#fNav}}
+        <li><a href="{{url}}">{{text}}</a></li>
+        {{/fNav}}
+      </ul>
+    </footer>
   </body>
 </html>

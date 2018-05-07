@@ -3,7 +3,7 @@
 /**
  *script:
  **name: Frixar
- **version : 0.1.2
+ **version : 0.1.3
  *scripters:
  **id:1
  **name: Camilo Barbosa
@@ -15,14 +15,14 @@
  **/
 
 (function (global, $, Mustache, frixar) {
-    " user extrict ";
+    "use strict";
     var frixar = frixar($, Mustache);
 
     global.frixar = frixar.framework;
     global.frixarFactory = frixar.packageFactory;
 
 }(this, jQuery, Mustache, function ($, Mustache) {
-    " user extrict ";
+    "use strict";
     var f_fc = new function () {
         $('html').hide();
         this.modules = [];
@@ -111,7 +111,7 @@
         return typer;
       }
 
-      function Service(name,inyect,define,After,OnReady) {
+      function Service(name,inyect,define,After,OnReady,Config) {
         prop.cursor.$type='srv';
         prop.cursor.$data = prop.typer.srv;
         if(typeof name == 'string')prop.cursor.$data.name = name;
@@ -122,6 +122,9 @@
         else prop.cursor.$data.After = function () {};
         if(typeof OnReady == 'function')prop.cursor.$data.OnReady = OnReady;
         else prop.cursor.$data.OnReady = function () {};
+
+        if(typeof Config == 'function')prop.cursor.$data.Config = Config;
+        else prop.cursor.$data.Config = null;
 
         prop.cursor.$data.init = function(base){
           base.maker.Inyection(base,base.maker.FinderService);
@@ -534,7 +537,7 @@
     var frixar = function (name, inyect) {
         var fram = {};
         var pprop = {};
-        psing={};
+        var psing={};
         var self = f_b('module', null, function (base) {
             if (pprop.$inyect)
                 pprop.$inyect.forEach(function (d) {
@@ -577,9 +580,20 @@
         fram.Controller = Controller;
         fram.Debug = Debug;
         fram.Using = Using;
-
+        fram.Config = Config;
 
         return fram;
+
+        function Config(extension)
+        {
+          var data=self.FindByNameAndType(extension,'extension');
+          if(data)
+          {
+            if(data.Config)return data.Config(data.extension);
+            console.error('extension '+extension+' no has config!');
+          }else
+            console.error('extension not exit');
+        }
 
         function Debug() {
             self.Debug();
@@ -629,10 +643,19 @@
 
             if(psing.cursor.$type=='srv')
             {
-                var args = ['',self,psing.cursor.$data.init];
+                var args = ['extension',self,psing.cursor.$data.init];
                 var srv = psing.cursor.$data.class.apply(this,args);
-                srv.OnReady = psing.cursor.$data.OnReady;
-                srv.After = psing.cursor.$data.After;
+                srv.extension = {};
+                srv.$data = {};
+                srv.Config = psing.cursor.$data.Config;
+                srv.$data.OnReady = psing.cursor.$data.OnReady;
+                srv.$data.After = psing.cursor.$data.After;
+                srv.OnReady = function(){
+                  srv.$data.OnReady(srv.extension);
+                }
+                srv.After = function () {
+                  srv.$data.After(srv.extension);
+                }
                 srv.Service(psing.cursor.$data.name,psing.cursor.$data.inyect,psing.cursor.$data.fun);
             }
 

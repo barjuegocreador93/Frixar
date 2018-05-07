@@ -2,7 +2,7 @@
 # Frixar
 > frixar is a early js framework that using [`Mustache`]() to control the html as template.
 
-[`Controller`](#Controllers) [`Service`](#Services) [`frixarFactory`](#FactoryService) [`Router`](#Router)
+[`Controller`](#controllers) [`Service`](#services) [`frixarFactory`](#factoryservice) [`Router`](#router)
 
  - ## Simple App Example:
     >- On js:

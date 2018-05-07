@@ -2,6 +2,8 @@
 # Frixar
 > frixar is a early js framework that using [`Mustache`]() to control the html as template.
 
+[`Controller`](##controller) [`Service`](#Services) [`frixarFactory`](#factoryService)
+
  - ## Simple App Example:
     >- On js:
 	>
@@ -138,5 +140,5 @@ Inside de methods: `After`, `OnReady` and `Config` the first argument named `bas
     >A object that contains a public attributes of current frixar app that using Config with us service.
 
 
-  - # Router
-  > On dev: Will be a factoryService that will control the templates and controllers as a route url in the browser like: `#/Home`
+- # Router
+> On dev: Will be a factoryService that will control the templates and controllers as a route url in the browser like: `#/Home`

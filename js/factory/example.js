@@ -3,7 +3,7 @@
 /*
   //Frixar example:
   //Calling a Service Class
-  frixar('myApp').Using(['myService',...]);
+  frixar('myApp').Using(['examplePackage.myService',...]);
 
   //Using Config
   frixar('myApp').Config('myService').MethodAdd(50);

@@ -126,10 +126,16 @@ Inside de methods: `After`, `OnReady` and `Config` the first argument named `bas
     * `factoryService: {Name,extension}` extension is the base.
     * `controller:{Name}`
 
-        `var controllers = []
+        `var controllers = [];        
         base.$methods.FindAllByType('controller',controllers);`
 
 
+> #### version 0.1.6:
+Inside de methods: `After`, `OnReady` and `Config` the first argument named `base` has a object: `$vars`.
+
+* ## base.$vars
+  * ### CurrentConfigApp
+    >A object that contains a public attributes of current frixar app that using Config with us service.
 
 
   - # Router | FactoryService

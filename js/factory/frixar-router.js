@@ -12,12 +12,12 @@
 
  **/
 
-
+var ServiceName = '$router';
 "use strict";
 
-var router = frixarFactory('Router').File('router');
+var router = frixarFactory('Router').File(ServiceName);
 
-router.Service('$r',[],Define,After,OnReady,Config);
+
 
 function Define () {
   var r={};
@@ -53,3 +53,6 @@ function Config(base)
 
   return config;
 }
+
+//Class Service
+router.Service(ServiceName,[],Define,After,OnReady,Config);

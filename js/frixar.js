@@ -100,6 +100,7 @@
       console.error('Package allready exist!');
 
       function $File(name) {
+        name= name.replace(' ','_').replace('$','*');
         validations(name);
         if(!prop.cursor[spname[v]])
           prop.cursor=prop.cursor[name]={$type:'file'};

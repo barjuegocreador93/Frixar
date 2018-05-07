@@ -126,8 +126,8 @@ Inside de methods: `After`, `OnReady` and `Config` the first argument named `bas
     * `factoryService: {Name,extension}` extension is the base.
     * `controller:{Name}`
 
-        var controllers = []
-        base.$methods.FindAllByType('controller',controllers);
+        `var controllers = []
+        base.$methods.FindAllByType('controller',controllers);`
 
 
 

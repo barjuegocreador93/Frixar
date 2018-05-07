@@ -3,10 +3,19 @@
 /*
   //Frixar example:
   //Calling a Service Class
-  frixar('myApp').Using(['myService',...]);
+  frixar('myApp').Using(['examplePackage.myService',...]);
 
   //Using Config
   frixar('myApp').Config('myService').MethodAdd(50);
+
+  //Using ServiceDefine
+  frixar('myApp').Controller('myController',['myService',...],function ($fv,myService,...) {
+    //$fv: the contrller view
+    $fv.FactoryMessage = myService;
+  });
+
+  //Html
+  <div fxr='myApp' fx-c="myController">{{FactoryMessage}}</div>
 
 */
 

@@ -1,11 +1,11 @@
 {
-  "name": "Frixar",
+  "name": "frixar",
   "homepage": "https://github.com/barjuegocreador93/Frixar",
   "authors": [
     "barbosa93cg@gmail.com"
   ],
   "description": "A js framework to views controllers usinng Mustache",
-  "main": "./lib/frixar.js",
+  "main": "./frixar.js",
   "keywords": [
     "frixar"
   ],
@@ -16,5 +16,9 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "mustache.js": "mustache#^2.3.0",
+    "jquery": "^3.3.1"
+  }
 }

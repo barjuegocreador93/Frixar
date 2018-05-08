@@ -34,8 +34,12 @@
 	>-	result:				
 	### My Super Web!
 	[Home](#)		[Login](#)
-
-
+ - ## install
+  >install with bower:
+  `$ bower install --save frixar`
+  ```html
+      <script src="/frixar.js" charset="utf-8"></script>
+  ```
  - ## Controllers
 	> The controllers has the control of a template. You can call service inside de controller if they were called by frixar. The principal service is `$fv`,  ` Controller first argument function`  is `$fv`.
 
@@ -197,6 +201,10 @@ Inside de methods: `After`, `OnReady` and `Config` the first argument named `bas
 - # Router
   - ###### ON DEV
   > Will be a factoryService that will control the templates and controllers as a   route url in the browser like: `#/home`.
+  ```html
+      <script src="/factory/router.js" charset="utf-8"></script>
+  ```
+  On `app.js`
   ```javascript
       var app = frixar('app');
       app.Using('Router.$router');

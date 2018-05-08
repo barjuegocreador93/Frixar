@@ -208,7 +208,7 @@ Inside de methods: `After`, `OnReady` and `Config` the first argument named `bas
     has a `<fx-v></fx-v>`
     ```javascript        
         app.Config('$router').Route('/home',{
-          template = '<h1>{{header}}<h1><p>{{explain}}</p>',
+          template : '<h1>{{header}}<h1><p>{{explain}}</p>',
           controller:'mainController'
         });
     ```

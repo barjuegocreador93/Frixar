@@ -3,7 +3,7 @@
 /**
  *script:
  **name: Frixar
- **version : 0.1.6
+ **version : 0.1.7
  *scripters:
  **id:1
  **name: Camilo Barbosa
@@ -310,11 +310,13 @@
 
       function Service(name,inyect,define,After,OnReady,Config) {
         prop.cursor.$type='srv';
+        prop.cursor.$data={};
+        prop.cursor.$data.class = f_s;
         if(arguments.length == 6)
         {
           prop.cursor.$data = prop.typer.srv;
           if(typeof name == 'string')prop.cursor.$data.name = name;
-          if(typeof inyect == 'array')prop.cursor.$data.inyect = inyect;
+          if(Array.isArray(inyect))prop.cursor.$data.inyect = inyect;
           if(typeof define == 'function')prop.cursor.$data.fun = define;
           else prop.cursor.$data.fun = function () {};
           if(typeof After == 'function')prop.cursor.$data.After = After;
@@ -333,7 +335,7 @@
           {
             var ob = arguments[0];
             if(typeof ob.Name == 'string')prop.cursor.$data.name = ob.Name;
-            if(typeof ob.Depends == 'array')prop.cursor.$data.inyect = ob.Depends;
+            if(Array.isArray(ob.Depends))prop.cursor.$data.inyect = ob.Depends;
             if(typeof ob.Define == 'function')prop.cursor.$data.fun = ob.Define;
             else prop.cursor.$data.fun = function () {};
             if(typeof ob.After == 'function')prop.cursor.$data.After = ob.After;

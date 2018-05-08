@@ -1,5 +1,14 @@
 # Changelog
 > All notable changes to this project will be documented in this file.
+
+## [0.0.5] - 2018-05-8
+### Changed
+- `Router` readed by objects.
+- fixed errors.
+- stable version!
+  - 0.1.7 frixar
+  - 0.0.2 router
+
 ## [0.0.5] - 2018-05-8
 ### Added
 - `Bower intall` babel.

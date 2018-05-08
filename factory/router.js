@@ -1,7 +1,7 @@
 /**
  *script:
  **name: Frixar-Router
- **version : 0.0.1
+ **version : 0.0.2
  *scripters:
  **id:1
  **name: Camilo Barbosa
@@ -11,68 +11,51 @@
  Depends: jQuery, Frixar >= 0.1.6
 
  **/
-
-
-
-var ServiceName = '$router';
 "use strict";
 
+var ServiceName = '$router';
 var router = frixarFactory('Router').File(ServiceName);
 
-function Define () {
-  var r={};
-  r.travel=travel;
-  return r;
+//Class Service
+router.Service({
+  Name:ServiceName,
+  Depends:[],
 
-  function travel(url) {
-    window.location ='#'+url;
-  }
-}
-
-function After(base) {
-  if(base.Routes)
-  {
-
-  }
-}
-
-function OnReady(base) {
-console.log(window.location);
-  if(base.Routes)
-  {
-    for(var v in)
+  Define:function () {
+    return{
+      travel:function (url) {
+        window.location ='#'+url;
+      }
+    };
+  },
+  After:function (base) {
+    if(base.Routes)
     {
 
     }
-  }
+  },
+  OnReady:function (base) {
 
-}
-
-//charge app data
-function Config(base)
-{
-  if(!base.Routes)base.Routes = {};
-
-  var config={}
-  //config = {templateUrl,template,jQtarget,controller}
-  config.Route=function(name,config)
-  {
-    var AppName = base.$vars.CurrentConfigApp.Name;
-    if(!base.Routes[name] && typeof config.controller=='string' && typeof config.template =='string')
-      {
-        base.Routes[name]={};
-        base.Routes[name]={
-          using:'fx-v',
-          cntrl:config.controller,
-          temp:config.template,
-          AppName:AppName
-        };
+  },
+  Config:function (base) {
+    if(!base.Routes)base.Routes=[];
+    return{
+      Route: function(name,config){
+        var AppName = base.$vars.CurrentConfigApp.Name;
+        if(!base.Routes[name] &&
+          typeof config.controller=='string' &&
+          typeof config.template =='string')
+        {
+          base.Routes[name]={};
+          base.Routes[name]={
+            using:'fx-v',
+            cntrl:config.controller,
+            temp:config.template,
+            AppName:AppName
+          };
+        }
+        return this;
       }
-    return config;
+    };
   }
-
-  return config;
-}
-
-//Class Service
-router.Service(ServiceName,[],Define,After,OnReady,Config);
+});

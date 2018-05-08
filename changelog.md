@@ -1,5 +1,16 @@
 # Changelog
 > All notable changes to this project will be documented in this file.
+## [0.0.5] - 2018-05-8
+### Added
+- `Bower intall` babel.
+- `facory/babel/example`.
+
+## Changed
+- `frixarfactory.File.Service` can read objects.
+- working in router.
+
+## Change
+- Router
 
 ## [0.0.4] - 2018-05-8
 ### Added

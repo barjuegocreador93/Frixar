@@ -30,12 +30,21 @@ function Define () {
 }
 
 function After(base) {
+  if(base.Routes)
+  {
 
+  }
 }
 
 function OnReady(base) {
 console.log(window.location);
-  
+  if(base.Routes)
+  {
+    for(var v in)
+    {
+
+    }
+  }
 
 }
 
@@ -45,7 +54,7 @@ function Config(base)
   if(!base.Routes)base.Routes = {};
 
   var config={}
-  //config = {templateUrl,template,target,controller}
+  //config = {templateUrl,template,jQtarget,controller}
   config.Route=function(name,config)
   {
     var AppName = base.$vars.CurrentConfigApp.Name;

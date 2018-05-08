@@ -1,5 +1,7 @@
 "use strict";
 
+
+
 var app=frixar('app');
 
 app.Using(['examplePackage.myService','Router.$router']);

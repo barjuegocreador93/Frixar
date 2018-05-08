@@ -310,26 +310,47 @@
 
       function Service(name,inyect,define,After,OnReady,Config) {
         prop.cursor.$type='srv';
-        prop.cursor.$data = prop.typer.srv;
-        if(typeof name == 'string')prop.cursor.$data.name = name;
-        if(typeof inyect == 'array')prop.cursor.$data.inyect = inyect;
-        if(typeof After == 'function')prop.cursor.$data.fun = define;
-        else prop.cursor.$data.fun = function () {};
-        if(typeof After == 'function')prop.cursor.$data.After = After;
-        else prop.cursor.$data.After = function () {};
-        if(typeof OnReady == 'function')prop.cursor.$data.OnReady = OnReady;
-        else prop.cursor.$data.OnReady = function () {};
+        if(arguments.length == 6)
+        {
+          prop.cursor.$data = prop.typer.srv;
+          if(typeof name == 'string')prop.cursor.$data.name = name;
+          if(typeof inyect == 'array')prop.cursor.$data.inyect = inyect;
+          if(typeof define == 'function')prop.cursor.$data.fun = define;
+          else prop.cursor.$data.fun = function () {};
+          if(typeof After == 'function')prop.cursor.$data.After = After;
+          else prop.cursor.$data.After = function () {};
+          if(typeof OnReady == 'function')prop.cursor.$data.OnReady = OnReady;
+          else prop.cursor.$data.OnReady = function () {};
 
-        if(typeof Config == 'function')prop.cursor.$data.Config = Config;
-        else prop.cursor.$data.Config = null;
+          if(typeof Config == 'function')prop.cursor.$data.Config = Config;
+          else prop.cursor.$data.Config = null;
 
-        prop.cursor.$data.init = function(base){
-          base.maker.Inyection(base,base.maker.FinderService);
-        };
+          prop.cursor.$data.init = function(base){
+            base.maker.Inyection(base,base.maker.FinderService);
+          };
+        }else {
+          if(arguments.length == 1)
+          {
+            var ob = arguments[0];
+            if(typeof ob.Name == 'string')prop.cursor.$data.name = ob.Name;
+            if(typeof ob.Depends == 'array')prop.cursor.$data.inyect = ob.Depends;
+            if(typeof ob.Define == 'function')prop.cursor.$data.fun = ob.Define;
+            else prop.cursor.$data.fun = function () {};
+            if(typeof ob.After == 'function')prop.cursor.$data.After = ob.After;
+            else prop.cursor.$data.After = function () {};
+            if(typeof ob.OnReady == 'function')prop.cursor.$data.OnReady = ob.OnReady;
+            else prop.cursor.$data.OnReady = function () {};
 
+            if(typeof ob.Config == 'function')prop.cursor.$data.Config = ob.Config;
+            else prop.cursor.$data.Config = null;
+
+            prop.cursor.$data.init = function(base){
+              base.maker.Inyection(base,base.maker.FinderService);
+            };
+
+          }
+        }
       }
-
-
 
     }
 

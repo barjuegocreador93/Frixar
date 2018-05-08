@@ -19,6 +19,7 @@
   ],
   "dependencies": {
     "mustache.js": "mustache#^2.3.0",
-    "jquery": "^3.3.1"
+    "jquery": "^3.3.1",
+    "babel": "^5.8.38"
   }
 }

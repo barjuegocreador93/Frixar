@@ -1,6 +1,14 @@
 # Changelog
 > All notable changes to this project will be documented in this file.
 
+## [0.0.3] - 2018-05-7
+### Added
+- A public attr for `type controller` a method `AddTemplate` for arguments `base` on `factoryServices` methods.
+
+### Changed
+- `Router.$router Config` charge a data for `Route`
+- Readme eddited
+
 ## [0.0.2] - 2018-05-7
 ### Fixed
 - A bad implementation

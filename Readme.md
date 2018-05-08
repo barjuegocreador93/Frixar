@@ -51,7 +51,7 @@
 - ### $fv
     > Is  a controller service, every controller created have a `$fv`.
     - ### Events
-          We can comunicate a controllers with others controllers throw  `$fv`.
+      We can comunicate a controllers with others controllers throw  `$fv`.
       - #### Locals
 	      We can emit a event inside a controller or what ever has in the declaraction zone of `$fv` using `$fv.$Emit('name event',data1,data2,...);` to take the data of the emiter we can use `$fv.$On('name evnet',function(data1,data2){});`.          
       - #### Globals  
@@ -75,31 +75,28 @@
     we can make to types of service, one can solve a specificate problem, factory Service must be solve a globals problems.
 
 	 - ### Local Service
-      > We can use it, for a create a connection with a API using `jQuery ajax` for the moment. Like a `Controllers` we can call a others serices inside this.
-
-      ```javascript    
-            frixar('app').Service('User_service',[],function(){
-              var srv = {};
-                srv.GetUser=function(user_id,success,error){
-                  $.get({url:'api/users/',data:{id:user_id},success:success,error:error});
-                };
-              return srv;
-            });                                
-            frixar('app').Controller('userController',['User_service'],
-            function($fv,User_service){
-              $('#user_select').click(function(){
-                  User_service.getUser($(this),val(),function(data){
-                    $fv.User=data;
-                    //jQuery has problem charge us $fv we can force
-                    //with $apply()
-                    $fv.$apply();
-                    });
-              });
-        });
-      ```
-
-
-  > Service can call a controllers `$fv` like `['$fv.app.appController','$fv.app2.app2Controller',...]` couse they are services too.
+    > We can use it, for a create a connection with a API using `jQuery ajax` for the moment. Like a `Controllers` we can call a others serices inside this.
+    ```javascript    
+          frixar('app').Service('User_service',[],function(){
+            var srv = {};
+              srv.GetUser=function(user_id,success,error){
+                $.get({url:'api/users/',data:{id:user_id},success:success,error:error});
+              };
+            return srv;
+          });                                
+          frixar('app').Controller('userController',['User_service'],
+          function($fv,User_service){
+            $('#user_select').click(function(){
+                User_service.getUser($(this),val(),function(data){
+                  $fv.User=data;
+                  //jQuery has problem charge us $fv we can force
+                  //with $apply()
+                  $fv.$apply();
+                  });
+            });
+      });
+    ```
+    Service can call a controllers `$fv` like `['$fv.app.appController','$fv.app2.app2Controller',...]` couse they are services too.
 
 - ## Factory Service
 > We can create a Class of service more powerfulls and with more control that locals services.
@@ -155,21 +152,24 @@ This services has `4 methods` that cover a sectors of frixar app
       ...
     ```
 
-  > #### version 0.1.5:
-  Inside de methods: `After`, `OnReady` and `Config` the first argument named `base` has a object: `$methods`.
+> #### version 0.1.5:
+Inside de methods: `After`, `OnReady` and `Config` the first argument named `base` has a object: `$methods`.
 
-  * ## base Types
-    * ### `type`
-      >is string that can be:  
-      * `app`:all frixar apps,  
-      * `factoryService`: all FactoryServices
-      * `controller`: all controllers
-    * ### `result`
-      > Is array that get all results with object and their public attributes.
-      * `app: {Name,EmiterOnReady}` `Name` is sitring, `EmiterOnReady` is a method
-      * `factoryService: {Name,extension}` `extension` is the base.
-      * `controller:{Name,AddTemplate}`
-        * `AddTemplate(template)` is a method with argument object `template:{template:textHtml,target:jQuert object,enable:boolean}` returns null.
+* ## base Types
+  * ### `type`
+    >is string that can be:  
+
+    * `app`:all frixar apps,  
+    * `factoryService`: all FactoryServices
+    * `controller`: all controllers
+
+  * ### `result`
+    > Is array that get all results with object and their public attributes.
+    
+    * `app: {Name,EmiterOnReady}` `Name` is sitring, `EmiterOnReady` is a method
+    * `factoryService: {Name,extension}` `extension` is the base.
+    * `controller:{Name,AddTemplate}`
+      * `AddTemplate(template)` is a method with argument object `template:{template:textHtml,target:jQuert object,enable:boolean}` returns null.
 
 
   * ## base.$methods

@@ -1,8 +1,14 @@
 
 # Frixar
 > frixar is a early js framework that using [`Mustache`]() to control the html as template.
-[`Controller`](#controllers) [`fv`](#fv) [`Service`](#services) [`frixarFactory`](#factory-service) [`base types`](#base-types) [`Router`](#router)
-[`On Dev`](#on-dev)
+
+* ##### [`Controller`](#controllers)
+* ##### [`fv`](#fv)
+* ##### [`Service`](#services)
+* ##### [`frixarFactory`](#factory-service)
+* ##### [`base types`](#base-types)
+* ##### [`Router`](#router)
+* ##### [`On Dev`](#on-dev)
 
 - ## Simple App Example:
   > - On js
@@ -41,21 +47,14 @@
     			//your code
 			});
     ```
-
     - ### $fv
-
     > Is  a controller service, every controller created have a `$fv`.
-
       - ### Events
           > We can comunicate a controllers with others controllers throw  `$fv`.
-
          - #### Locals
-
 		      > We can emit a event inside a controller or what ever has in the declaraction zone of `$fv` using `$fv.$Emit('name event',data1,data2,...);` to take the data of the emiter we can use `$fv.$On('name evnet',function(data1,data2){}); `
-
         - #### Globals  
           > We can emit a event inside a controller or what ever has in the declaraction zone of `$fv` using `$fv.$global.$Emit('name event',data1,data2,...);` to take the data of the emiter we can use `$fv.$global.$On('name evnet',function(data1,data2){}); `. The principal diference with `local events` is when you has two apps declarates with `frixar` they can go to the other controllers aswell we takes `frixar('app',['app2']);` in the first frixar app call.
-
           ```javascript
         			frixar('myApp').Controller('ScondController',
         			function($fv){

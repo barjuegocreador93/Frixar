@@ -1,0 +1,20 @@
+{
+  "name": "Frixar",
+  "homepage": "https://github.com/barjuegocreador93/Frixar",
+  "authors": [
+    "barbosa93cg@gmail.com"
+  ],
+  "description": "A js framework to views controllers usinng Mustache",
+  "main": "./lib/frixar.js",
+  "keywords": [
+    "frixar"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

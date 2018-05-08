@@ -150,7 +150,7 @@ This services has `4 methods` that cover a sectors of frixar app
       app.Using('packageName.ServiceName');
       app.Config('ServiceName').FirstMethod();
       ...
-    ```
+  ```
 
 > #### version 0.1.5:
 Inside de methods: `After`, `OnReady` and `Config` the first argument named `base` has a object: `$methods`.
@@ -165,7 +165,7 @@ Inside de methods: `After`, `OnReady` and `Config` the first argument named `bas
 
   * ### `result`
     > Is array that get all results with object and their public attributes.
-    
+
     * `app: {Name,EmiterOnReady}` `Name` is sitring, `EmiterOnReady` is a method
     * `factoryService: {Name,extension}` `extension` is the base.
     * `controller:{Name,AddTemplate}`

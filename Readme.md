@@ -7,8 +7,7 @@
 [`On Dev`](#on-dev)
 
  - ## Simple App Example:
-    >- On js:
-	>
+    >- On js
   ```javascript
 	    frixar('myApp').Controller('myController',function($fv){
   	    fv.Web_Name =  'My Super Web!';
@@ -16,7 +15,6 @@
 	    });
   ```
 	>- On Html
-
 	```html
     ...
 	     <header fxr='myApp' fx-c="myContreller">

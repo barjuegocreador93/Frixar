@@ -2,7 +2,7 @@
 # Frixar
 > frixar is a early js framework that using [`Mustache`]() to control the html as template.
 
-[`Controller`](#controllers) [`fv`](#$fv) [`Service`](#services) [`frixarFactory`](#factory-service) [`Router`](#router)
+[`Controller`](#controllers) [`fv`](#$fv) [`Service`](#services) [`frixarFactory`](#factory-service) [`base types`](#base-types) [`Router`](#router)
 
  - ## Simple App Example:
     >- On js:
@@ -63,41 +63,44 @@
 	 - ### Local Service
       > We can use it, for a create a connection with a API using `jQuery ajax` for the moment. Like a `Controllers` we can call a others serices inside this.
 
+      ```javascript    
             frixar('app').Service('User_service',[],function(){
               var srv = {};
                 srv.GetUser=function(user_id,success,error){
                   $.get({url:'api/users/',data:{id:user_id},success:success,error:error});
                 };
               return srv;
-            });
-
+            });                                
             frixar('app').Controller('userController',['User_service'],
             function($fv,User_service){
-                  $('#user_select').click(function(){
-                      User_service.getUser($(this),val(),function(data){
-                        $fv.User=data;
-                        //jQuery has problem charge us $fv we can force
-                        //with $apply()
-                        $fv.$apply();
-                        });
-                  });
+              $('#user_select').click(function(){
+                  User_service.getUser($(this),val(),function(data){
+                    $fv.User=data;
+                    //jQuery has problem charge us $fv we can force
+                    //with $apply()
+                    $fv.$apply();
+                    });
+              });
 
-            });
+
+        });
+      ```
+
+
     > Service can call a controllers `$fv` like `['$fv.app.appController','$fv.app2.app2Controller',...]` cause they be services too.
 
 - ## Factory Service
 > We can create a Class of service more powerfulls and with more control that locals services.
 This services has 4 methods that cover a sectors of frixar app
-
-* #### Define
-> Is service function who is calling in controller.
-Remember, they can return data.
-* #### OnReady
-> Is calling when all frixars is reading.
-* #### After
-> Is calling when all controllers finish.
-* #### Config
-> Will call when 'frixar('app').Config('serviceName') was call.'
+  * ### Define
+  > Is service function who is calling in controller.
+  Remember, they can return data.
+  * ### OnReady
+  > Is calling when all frixars is reading.
+  * ### After
+  > Is calling when all controllers finish.
+  * ### Config
+  > Will call when 'frixar('app').Config('serviceName') was call.'
 
 
       var
@@ -113,23 +116,28 @@ Remember, they can return data.
 
 > #### version 0.1.5:
 Inside de methods: `After`, `OnReady` and `Config` the first argument named `base` has a object: `$methods`.
-
-* ## base.$methods
-  * ### FindAllByType(`type`,`result`)
-    >find all in a `frixar app` objects by type and get public attributes.
-
-    > `type` is string  can be:  
+* ## base Types
+  * ### `type`
+    >is string that can be:  
     * `app`:all frixar apps,  
     * `factoryService`: all FactoryServices
     * `controller`: all controllers
+  * ### `result`
+    > Is array that get all results with object and their public attributes.
+    * `app: {Name,EmiterOnReady}` `Name` is sitring, `EmiterOnReady` is a method
+    * `factoryService: {Name,extension}` `extension` is the base.
+    * `controller:{Name}`  
 
-    >`result` is array that get all results with object and their public attributes.
-    * `app: {Name}`
-    * `factoryService: {Name,extension}` extension is the base.
-    * `controller:{Name}`
 
+* ## base.$methods
+  * ### FindAllByType([`type`](#type),[`result`](#result))
+    >find all in a `frixar app` objects by type and get public attributes.
         `var controllers = [];        
         base.$methods.FindAllByType('controller',controllers);`
+  * ### FindAllByNameAndType(`name`,[`type`](#type)) returns `object`
+    >find all in a `frixar app` objects by name and type and get public attributes.
+        `var controllers = [];        
+        base.$methods.FindAllByNameAndType('controller',controllers);`
 
 
 > #### version 0.1.6:

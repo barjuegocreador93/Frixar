@@ -171,9 +171,14 @@ Inside de methods: `After`, `OnReady` and `Config` the first argument named `bas
     > Is array that get all results with object and their public attributes.
 
     * `app: {Name,EmiterOnReady}` `Name` is sitring, `EmiterOnReady` is a method
+
     * `factoryService: {Name,extension}` `extension` is the base.
-    * `controller:{Name,AddTemplate}`
-      * `AddTemplate(template)` is a method with argument object `template:{template:textHtml,target:jQuert object,enable:boolean}` returns null.
+
+    * `controller:{Name,AddTemplate,Call}`
+
+		* `AddTemplate(template)` is a method with argument object `template:{template:textHtml,target:jQuert object,enable:boolean}` returns null.
+
+		* `Call()` is to ReCall de `Define Method` of the contreller.
 
 
   * ## base.$methods
@@ -224,7 +229,7 @@ Inside de methods: `After`, `OnReady` and `Config` the first argument named `bas
     ```html
       ...
         <nav>
-          <fx-l class="myclass" id="myid" href="/home">MyLink</fx-l>
+          <a href="#/home" >Home</a>
         </nav>
         <section fxr="app">
           <fx-v></fx-v>

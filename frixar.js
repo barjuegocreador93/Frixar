@@ -3,7 +3,7 @@
 /**
  *script:
  **name: Frixar
- **version : 0.1.7
+ **version : 0.1.8
  *scripters:
  **id:1
  **name: Camilo Barbosa
@@ -45,7 +45,7 @@
         var publicattrs = {
           app:{type:'module',attrs:['Name','EmiterOnReady']},
           factoryService:{type:'extension',attrs:['Name','extension']},
-          controller:{type:'cntrl',attrs:['Name','AddTemplate']}
+          controller:{type:'cntrl',attrs:['Name','AddTemplate','Call']}
         };
 
         var d = f_fc.FindModelOrCreate(name, self);
@@ -570,7 +570,7 @@
         self.fun.$inyect = [];
 
         maker.defaultFunCall = function () {
-            self.fun.$inyectResultObj = [];
+            if(!self.fun.$inyectResultObj){self.fun.$inyectResultObj = [];
             self.fun.$inyectResult.forEach(function (v, ind) {
 
                 if (typeof v === "object" && typeof v.HasType === "function")
@@ -578,14 +578,16 @@
                     if (typeof v.fun.Call === 'function')
                         self.fun.$inyectResult[ind] = v.fun.Call();
                         self.fun.$inyectResultObj.push(v);
-                } else
-                    console.error('problem-in-inyection ' + ind +' of ' + self.Name);
-            });
+                }
+            });}
 
             var data=self.fun.apply(this, self.fun.$inyectResult);
 
             self.fun.$inyectResultObj.forEach(function (v) {
-               v.After();
+              if(v.After)
+                v.After();
+              else if(v.$apply)
+                  v.$apply;
             });
 
             return data;
@@ -700,6 +702,8 @@
                         v.target.empty();
                         var render = Mustache.render(v.template, sc);
                         v.target.append(render);
+                      }else{
+                        v.target.empty();
                       }
                     });
                 else {
@@ -709,6 +713,7 @@
 
                 if(cntrl.Recharge)
                 {
+                  if(cntrl.Containers)
                   cntrl.Containers.each(function (v) {
                       var temp = {template: $(this).html(), target: $(this),enable:true};
                       cntrl.AddTemplate(temp);
@@ -747,7 +752,7 @@
             });
 
         });
-
+        self.AppName = self.Padre().Name;
         self.OnReady = function () {
             $(document).ready(function () {
                 if ($('[fxr="' + parent.Name + '"]').has('[fx-c="' + self.Name + '"]').length === 1 ||
@@ -762,12 +767,11 @@
         };
         //temp:{template:textHtml,target:$(),enable:boolean}
         self.AddTemplate= function (template) {
-          if(template.enable)
-          {
-            if(!cntrl.Templates)self.Templates = [];
-            Mustache.parse(template.template);
-            self.Templates.push(template);
-          }
+
+          if(!cntrl.Templates)self.Templates = [];
+          Mustache.parse(template.template);
+          self.Templates.push(template);
+          return self.Templates.length - 1;
         };
 
 

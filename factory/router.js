@@ -1,7 +1,7 @@
 /**
  *script:
  **name: Frixar-Router
- **version : 0.0.2
+ **version : 0.0.3
  *scripters:
  **id:1
  **name: Camilo Barbosa
@@ -29,16 +29,23 @@ router.Service({
     };
   },
   After:function (base) {
-    if(base.Routes)
-    {
 
-    }
   },
   OnReady:function (base) {
 
+    if(window.onhashchange)
+     window.onhashchange = function() {
+        router_change_view(base);
+    };
+    else {
+      $(window).on('hashchange', function(){
+        router_change_view(base);
+      });
+    }
+    router_change_view(base);
   },
   Config:function (base) {
-    if(!base.Routes)base.Routes=[];
+    if(!base.Routes)base.Routes={};
     return{
       Route: function(name,config){
         var AppName = base.$vars.CurrentConfigApp.Name;
@@ -46,16 +53,65 @@ router.Service({
           typeof config.controller=='string' &&
           typeof config.template =='string')
         {
-          base.Routes[name]={};
-          base.Routes[name]={
+           base.Routes[name]={
+            url:name,
             using:'fx-v',
             cntrl:config.controller,
             temp:config.template,
             AppName:AppName
           };
         }
-        return this;
+         return this;
       }
     };
   }
 });
+
+
+function router_change_view(base)
+{
+  if(base.Routes)
+  {
+    for(var v in base.Routes)
+    {
+
+      if( $('[fxr="'+base.Routes[v].AppName+'"]').has('fx-v') )
+      {
+        base.Routes[v].target = $('[fxr="'+base.Routes[v].AppName+'"] fx-v');
+        base.Routes[v].controller = base.$methods.FindByNameAndType(base.Routes[v].cntrl,'controller');
+        if(base.Routes[v].controller)
+        {
+          //template for controller:
+          base.Routes[v].enabler={
+              template:base.Routes[v].temp,
+              target:base.Routes[v].target,
+              enable:false
+          };
+            base.Routes[v].enabler.index=base.Routes[v].controller.AddTemplate(base.Routes[v].enabler);
+            base.Routes[v].enabler.controller=base.Routes[v].controller;
+        }
+      }
+    }
+    var actualRute = window.location.hash.replace('#','');
+    if(base.Routes[actualRute])
+    {
+
+      if(base.LastTemplateOn)
+      {
+        base.LastTemplateOn.enable = false;
+        base.LastTemplateOn.controller.Call();
+      }
+      base.LastTemplateOn = base.Routes[actualRute].enabler;
+      base.LastTemplateOn.enable = true;
+      base.LastTemplateOn.controller.Call();
+    }else {
+      if(base.LastTemplateOn)
+      {
+        base.LastTemplateOn.enable = false;
+        base.LastTemplateOn.controller.Call();
+      }
+
+    }
+
+  }
+}

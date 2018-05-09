@@ -1,6 +1,18 @@
 # Changelog
 > All notable changes to this project will be documented in this file.
 
+## [0.0.6] - 2018-05-8
+## Added
+- A public attr for `type controller` a method `Call` for arguments `base` on `factoryServices` methods.
+
+### Changed
+- we have `Router` allowed
+- fixed errors.
+- stable version!
+  - 0.1.8 frixar
+  - 0.0.3 router
+
+
 ## [0.0.5] - 2018-05-8
 ### Changed
 - `Router` readed by objects.

@@ -9,6 +9,7 @@
 *  [`base types`](#base-types)
 *  [`Router`](#router)
 *  [`On Dev`](#on-dev)
+* [`new`](#new)
 
 - ## Simple App Example:
   > - On js
@@ -204,7 +205,7 @@ Inside de methods: `After`, `OnReady` and `Config` the first argument named `bas
 
 
 - # Router
-  - ###### ON DEV
+  - ###### NEW
   > Will be a factoryService that will control the templates and controllers as a   route url in the browser like: `#/home`.
   ```html
       <script src="/factory/router.js" charset="utf-8"></script>

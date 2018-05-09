@@ -694,18 +694,22 @@
             };
 
             sc.$apply = function ()
-            {
+            {              
                 if (cntrl.Templates)
-                    cntrl.Templates.forEach(function (v) {
-                      if(v.enable)
-                      {
-                        v.target.empty();
-                        var render = Mustache.render(v.template, sc);
-                        v.target.append(render);
-                      }else{
-                        v.target.empty();
-                      }
-                    });
+                {
+                  for( var v of cntrl.Templates)
+                  {
+                    if(v.enable)
+                    {
+                      v.target.empty();
+                      var render = Mustache.render(v.template, sc);
+                      v.target.append(render);
+
+                    }else{
+                      v.target.empty();
+                    }
+                  }
+                }
                 else {
                     cntrl.Templates = [];
                     cntrl.Recharge = true;
@@ -714,14 +718,18 @@
                 if(cntrl.Recharge)
                 {
                   if(cntrl.Containers)
-                  cntrl.Containers.each(function (v) {
-                      var temp = {template: $(this).html(), target: $(this),enable:true};
-                      cntrl.AddTemplate(temp);
-                      var render = Mustache.render(temp.template, sc);
-                      $(this).empty();
-                      temp.target.append(render);
-                      $(this).removeAttr('fx-c');
-                  });
+                  {
+                    cntrl.Containers.each(function (v) {
+                        var temp = {template: $(this).html(), target: $(this),enable:true};
+                        cntrl.AddTemplate(temp);
+                        var render = Mustache.render(temp.template, sc);
+                        $(this).empty();
+                        temp.target.append(render);
+                        $(this).removeAttr('fx-c');
+                    });
+                    cntrl.Containers = null;
+                  }
+
                   cntrl.Recharge = false;
                 }
             }

@@ -1,6 +1,13 @@
 # Changelog
 > All notable changes to this project will be documented in this file.
 
+## [0.0.7] - 2018-05-9
+### Changed
+- `factory/router`optimisation
+- `frixar fv apply` update
+
+
+
 ## [0.0.6] - 2018-05-8
 ## Added
 - A public attr for `type controller` a method `Call` for arguments `base` on `factoryServices` methods.

@@ -32,7 +32,7 @@ router.Service({
 
   },
   OnReady:function (base) {
-
+    router_enablers(base);
     if(window.onhashchange)
      window.onhashchange = function() {
         router_change_view(base);
@@ -48,7 +48,6 @@ router.Service({
     if(!base.Routes)base.Routes={};
     return{
       Route: function(name,config){
-        var AppName = base.$vars.CurrentConfigApp.Name;
         if(!base.Routes[name] &&
           typeof config.controller=='string' &&
           typeof config.template =='string')
@@ -58,7 +57,7 @@ router.Service({
             using:'fx-v',
             cntrl:config.controller,
             temp:config.template,
-            AppName:AppName
+            AppName:base.$vars.CurrentConfigApp.Name
           };
         }
          return this;
@@ -68,50 +67,71 @@ router.Service({
 });
 
 
-function router_change_view(base)
-{
+function router_enablers(base) {
   if(base.Routes)
   {
     for(var v in base.Routes)
     {
 
-      if( $('[fxr="'+base.Routes[v].AppName+'"]').has('fx-v') )
+      if( $('[fxr="'+base.Routes[v].AppName+'"]').has('fx-v') && base.Routes[v].using == 'fx-v')
       {
-        base.Routes[v].target = $('[fxr="'+base.Routes[v].AppName+'"] fx-v');
-        base.Routes[v].controller = base.$methods.FindByNameAndType(base.Routes[v].cntrl,'controller');
-        if(base.Routes[v].controller)
+        var controller = base.$methods.FindByNameAndType(base.Routes[v].cntrl,'controller');
+        if(controller)
         {
           //template for controller:
           base.Routes[v].enabler={
               template:base.Routes[v].temp,
-              target:base.Routes[v].target,
+              target:$('[fxr="'+base.Routes[v].AppName+'"] fx-v'),
               enable:false
           };
-            base.Routes[v].enabler.index=base.Routes[v].controller.AddTemplate(base.Routes[v].enabler);
-            base.Routes[v].enabler.controller=base.Routes[v].controller;
-        }
+            base.Routes[v].enabler.using = 'fx-v';
+            controller.AddTemplate(base.Routes[v].enabler);
+            base.Routes[v].enabler.controller= controller;
+        }else console.error('Controller: '+base.Routes[v].cntrl+' not exist for '+base.Routes[v].AppName+' in the route '+v);
       }
     }
+  }
+}
+
+
+function router_change_view(base)
+{
+  if(base.Routes){
+
     var actualRute = window.location.hash.replace('#','');
     if(base.Routes[actualRute])
     {
-
-      if(base.LastTemplateOn)
+      if(base.updater)
       {
-        base.LastTemplateOn.enable = false;
-        base.LastTemplateOn.controller.Call();
+        var updt = base.updater;
+        updt.LastTemplateOn.enable = false;
+        update_enabler_target(updt.LastTemplateOn);
       }
-      base.LastTemplateOn = base.Routes[actualRute].enabler;
-      base.LastTemplateOn.enable = true;
-      base.LastTemplateOn.controller.Call();
+      base.updater={};
+      var last = base.updater.LastTemplateOn = base.Routes[actualRute].enabler;
+      last.enable = true;
+      last.AppName = base.Routes[actualRute].AppName;
+      update_enabler_target(last);
     }else {
-      if(base.LastTemplateOn)
+      if(base.updater)
       {
-        base.LastTemplateOn.enable = false;
-        base.LastTemplateOn.controller.Call();
+        base.updater.LastTemplateOn.enable = false;
+        update_enabler_target(base.updater.LastTemplateOn);
       }
 
     }
 
+  }
+}
+
+
+
+
+function update_enabler_target(enabler)
+{
+  if(enabler.using == 'fx-v')
+  {
+    enabler.target = $('[fxr="'+enabler.AppName+'"] fx-v');
+    enabler.controller.Call();
   }
 }

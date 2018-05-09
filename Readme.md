@@ -156,6 +156,9 @@ This services has `4 methods` that cover a sectors of frixar app
       app.Config('ServiceName').FirstMethod();
       ...
   ```
+	> ## Other Ways to create a `factoryService`:
+	* [Babel example](https://github.com/barjuegocreador93/Frixar/blob/master/factory/babel/example.js) 
+
 
 > #### version 0.1.5:
 Inside de methods: `After`, `OnReady` and `Config` the first argument named `base` has a object: `$methods`.

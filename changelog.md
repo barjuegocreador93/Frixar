@@ -1,6 +1,15 @@
 # Changelog
 > All notable changes to this project will be documented in this file.
 
+## [0.0.8] - 2018-05-9
+### Added
+- `controllers as childs on view`
+
+### Changed
+- `factory/router`using others controllers and components OnReady for update the templates on tag fx-v
+- `frixar fv apply` update
+
+
 ## [0.0.7] - 2018-05-9
 ### Changed
 - `factory/router`optimisation

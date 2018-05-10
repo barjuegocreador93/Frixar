@@ -32,17 +32,22 @@ router.Service({
 
   },
   OnReady:function (base) {
-    router_enablers(base);
-    if(window.onhashchange)
-     window.onhashchange = function() {
-        router_change_view(base);
-    };
-    else {
-      $(window).on('hashchange', function(){
-        router_change_view(base);
-      });
+    if(!base.IsReady)
+    {
+      base.IsReady=true;
+      router_enablers(base);
+      if(window.onhashchange)
+       window.onhashchange = function() {
+          router_change_view(base);
+      };
+      else {
+        $(window).on('hashchange', function(){
+          router_change_view(base);
+        });
+      }
+      router_change_view(base);
     }
-    router_change_view(base);
+
   },
   Config:function (base) {
     if(!base.Routes)base.Routes={};
@@ -131,7 +136,7 @@ function update_enabler_target(enabler)
 {
   if(enabler.using == 'fx-v')
   {
-    enabler.target = $('[fxr="'+enabler.AppName+'"] fx-v');
+    enabler.target = $('[fxr="'+enabler.AppName+'"] fx-v');    
     enabler.controller.Call();
   }
 }

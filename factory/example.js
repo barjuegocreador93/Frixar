@@ -42,9 +42,14 @@ function ServiceAfterRun(base) {
 //base is a empty object to comunicate with FrixarConfig o ServiceAfterRun
 function FrixarOnReady(base) {
   //can be null or not declarate
-  var controllers = [];
-  base.$methods.FindAllByType('controller',controllers);
-  console.log('this is FrixarOnReady, executed on three frixar is ready');
+  if(!base.IsReady)
+  {
+    var controllers = [];
+    base.$methods.FindAllByType('controller',controllers);
+    console.log('this is FrixarOnReady, executed on three frixar is ready');
+    base.IsReady = true;
+  }
+
 }
 
 //must be return information to Frixar.Config. Used like Config(NameService).MyMethod()

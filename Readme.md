@@ -19,7 +19,7 @@
 	    fv.fNav = [{url:'/home',text:'Home'},{url:'/login',text:'Login'}];
     });
 ```
-  
+
 - On `Html`
 ```html
   ...
@@ -62,7 +62,7 @@
 ```
 
 ## Controllers
-The controllers has the control of a template. You can call service inside de controller if they were called by frixar. 
+The controllers has the control of a template. You can call service inside de controller if they were called by frixar.
 
 > The principal service is `$fv`,  *Controller first argument function* is `$fv`.
 
@@ -144,7 +144,7 @@ This services has `4 methods` that cover a sectors of frixar app
       }
   ```
   Remember, they can return data.
-  
+
   - ### OnReady
   Is called when all frixars are reading.
   ```javascript
@@ -186,7 +186,7 @@ This services has `4 methods` that cover a sectors of frixar app
       ...
   ```
 	> ## Other Ways to create a `factoryService`:
-	* [Babel example](https://github.com/barjuegocreador93/Frixar/blob/master/factory/babel/example.js) 
+	* [Babel example](https://github.com/barjuegocreador93/Frixar/blob/master/factory/babel/example.js)
 
 
 ### Versions
@@ -229,6 +229,20 @@ Inside de methods: `After`, `OnReady` and `Config` the first argument named `bas
           base.$methods.FindAllByNameAndType('controller',controllers);
       ```
 
+    * ### EmiterOnReady() returns `null`
+      reload `OnReady` in all components of `frixar app`. Becarfull using inside of OnReady method `you will make a bucle`:
+      ```javascript
+      OnReady:function(base){
+        ...
+          if(!base.IsReady)
+          {
+            base.IsReady = true;
+            base.$methods.EmiterOnReady();
+          }
+          ...
+        }
+      ```
+
   #### version 0.1.6:
   Inside de methods: `After`, `OnReady` and `Config` the first argument named `base` has a object: `$vars`.
 
@@ -238,7 +252,7 @@ Inside de methods: `After`, `OnReady` and `Config` the first argument named `bas
 
 
 - # Router
-  - ###### NEW
+
   Will be a factoryService that will control the templates and controllers as a   route url in the browser like: `#/home`.
 
   ```html
@@ -270,4 +284,13 @@ Inside de methods: `After`, `OnReady` and `Config` the first argument named `bas
           <fx-v></fx-v>
         </section>
       ...
+    ```
+    - ###### NEW
+    Other `Route template` aplication is that we can put other `fxr` or `fx-c` attributes inside theirs with like this:
+    ```javascript
+      app.Config('$router')Route('/app',
+        {
+          template:"<section fxr='app2'><div fx-c='otherController'>{{other_data}}</div></section>",
+          controler:'appController'
+        });      
     ```

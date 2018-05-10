@@ -65,7 +65,6 @@
             setTimeout(function () {
 
                 self.Run();
-
                 self.EmiterOnReady();
                 setTimeout(function () {
                     f_fc.Onfetch();
@@ -184,7 +183,11 @@
                   });
                   else console.error(type+' Not exist! ');
                   return val;
-                }
+                };
+
+                srv.extension.$methods.EmiterOnReady = function () {
+                  srv.Root().EmiterOnReady();
+                };
 
                 srv.$data = {};
                 srv.Config = psing.cursor.$data.Config;
@@ -399,7 +402,7 @@
 
 
         base.EmiterOnReady = function () {
-            if (!base.IsReady)
+
             {
                 base.OnReady();
                 base.IsReady = true;
@@ -694,20 +697,34 @@
             };
 
             sc.$apply = function ()
-            {              
+            {
                 if (cntrl.Templates)
                 {
+                  var i = 0;
                   for( var v of cntrl.Templates)
                   {
                     if(v.enable)
                     {
                       v.target.empty();
+                      var isControllerInContent = false;
+                      v.target.append(v.template);
+                      v.target.find('[fx-c]').each(function(){
+                        var text = $(this).html().replace('{{',';[');
+                        text = text.replace('}}','];');
+                        $(this).html(text);
+                        isControllerInContent = true;
+                      });
+                      if(isControllerInContent)cntrl.Root().EmiterOnReady();
+                      v.template = v.target.html();
+                      Mustache.parse(v.template)
                       var render = Mustache.render(v.template, sc);
+                      v.target.empty();
                       v.target.append(render);
 
                     }else{
                       v.target.empty();
                     }
+                    if(v.toDistroy)cntrl.Templates.splice(i,1);
                   }
                 }
                 else {
@@ -720,7 +737,15 @@
                   if(cntrl.Containers)
                   {
                     cntrl.Containers.each(function (v) {
-                        var temp = {template: $(this).html(), target: $(this),enable:true};
+                        var text = $(this).html().replace(';[','{{');
+                        text = text.replace('];','}}');
+                        $(this).html(text);
+                        $(this).find('[fx-c]').each(function(){
+                          var text = $(this).html().replace('{{',';[');
+                          text = text.replace('}}','];');
+                          $(this).html(text);
+                        });
+                        var temp = {template: $(this).html(), target: $(this),enable:true,toDistroy:false};
                         cntrl.AddTemplate(temp);
                         var render = Mustache.render(temp.template, sc);
                         $(this).empty();
@@ -729,7 +754,6 @@
                     });
                     cntrl.Containers = null;
                   }
-
                   cntrl.Recharge = false;
                 }
             }
@@ -764,7 +788,7 @@
         self.OnReady = function () {
             $(document).ready(function () {
                 if ($('[fxr="' + parent.Name + '"]').has('[fx-c="' + self.Name + '"]').length === 1 ||
-                        $('[fxr="' + parent.Name + '"][fxr="' + parent.Name + '"]').length === 1)
+                        $('[fxr="' + parent.Name + '"] [fx-c="' + self.Name + '"]').length === 1)
                 {
 
                     self.Containers = $('[fx-c="' + self.Name + '"]');
@@ -799,11 +823,5 @@
         };
         return cntrl;
     }
-
-
-
-
-
-
     return {framework:frixar , packageFactory:frixarPackage};
 }));

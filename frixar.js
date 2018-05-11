@@ -774,7 +774,7 @@
                 {
                   if(cntrl.Containers)
                   {
-                    cntrl.Containers.each(function (v) {                       
+                    cntrl.Containers.each(function (v) {
                         var text = $(this).html().replace(';[','{{');
                         text = text.replace('];','}}');
                         $(this).html(text);
@@ -873,7 +873,7 @@
               var params = '';
               for(var p in rq.params)
               {
-                params+='?'+p+'='+params[p];
+                params+='?'+p+'='+rq.params[p];
               }
               rq.url+=params;
             }

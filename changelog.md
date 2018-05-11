@@ -1,5 +1,8 @@
 # Changelog
 > All notable changes to this project will be documented in this file.
+## [0.1.0] - 2018-05-11
+### Changed
+- fix a `service $ajax AddParams`
 
 ## [0.0.9] - 2018-05-11
 ### Added

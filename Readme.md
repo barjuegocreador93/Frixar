@@ -250,6 +250,14 @@ Inside de methods: `After`, `OnReady` and `Config` the first argument named `bas
       * ### CurrentConfigApp
         A object that contains a public attributes of current frixar app that using Config with us service.
 
+  #### version 0.1.9:
+    * ## base.$config
+      We can call an other service Config
+      ```javascript
+          base.$config('$ajax').rjson({url:'get json path',success:function(json){
+            ...
+          }});
+      ```  
 
 - # Router
 
@@ -284,13 +292,45 @@ Inside de methods: `After`, `OnReady` and `Config` the first argument named `bas
           <fx-v></fx-v>
         </section>
       ...
-    ```
-    - ###### NEW
+    ```    
     Other `Route template` aplication is that we can put other `fxr` or `fx-c` attributes inside theirs with like this:
     ```javascript
-      app.Config('$router')Route('/app',
+      app.Config('$router').Route('/app',
         {
           template:"<section fxr='app2'><div fx-c='otherController'>{{other_data}}</div></section>",
           controler:'appController'
         });      
     ```
+
+    - ###### New
+      - ### templateUrl
+      We can create a `template.fxt` file to show a template in a `<fx-v>` when route has active. We gonna needed to run us app in a `server` or `localhosts tools`!!:
+      ```javascript
+        app.Config('$router').Route('/contacts',
+          {
+            templateUrl:"./templates/contactsView.fxt",
+            controler:'contactsController'
+          });      
+      ```
+    - ##### On dev
+      * ### Route Three
+      We will allowed to make a view insde parent view with `/Cars/Mazda`
+
+        * index.html    
+          * `<fx-v>`
+            * /route-root
+            * controller
+            * template
+              * `<fx-v>`
+                * /childs
+                * controller
+                * template
+                  * ...
+
+      * ### Route $vars
+       We will allowed to create vars with `/Costumers/{costumer_id}` and take the data with `$router` service difine at controller
+       ```javascript
+          app.Controller('CostumersController',['$router'],function ($fv,$router) {
+            var costumer_id = $router.$vars['costumer_id'];
+          });
+       ```

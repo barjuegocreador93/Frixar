@@ -1,6 +1,16 @@
 # Changelog
 > All notable changes to this project will be documented in this file.
 
+## [0.0.9] - 2018-05-11
+### Added
+- `$ajax` Service
+- `base.$config` we can call the others service config
+- `Route templateUrl` mode
+
+### Changed
+- reaname js `->` test
+
+
 ## [0.0.8] - 2018-05-9
 ### Added
 - `controllers as childs on view`

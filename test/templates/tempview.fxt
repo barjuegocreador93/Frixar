@@ -1,0 +1,8 @@
+<h4>This is a template!</h4>
+<form class="" action="" method="">
+  {{#form.content}}
+  <div>
+  <input type="{{type}}" name="{{name}}" value="{{value}}">
+  </div>
+  {{/form.content}}
+</form>

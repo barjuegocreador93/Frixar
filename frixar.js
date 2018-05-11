@@ -3,7 +3,7 @@
 /**
  *script:
  **name: Frixar
- **version : 0.1.8
+ **version : 0.1.9
  *scripters:
  **id:1
  **name: Camilo Barbosa
@@ -41,6 +41,12 @@
         });
         self.SetName(name);
 
+        fram.Service = Service;
+        fram.Controller = Controller;
+        fram.Debug = Debug;
+        fram.Using = Using;
+        fram.Config = Config;
+
         //PUBLIC attrs
         var publicattrs = {
           app:{type:'module',attrs:['Name','EmiterOnReady']},
@@ -55,7 +61,8 @@
             pprop.$copy = true;
         } else
         {
-            pprop.$copy = false;
+          frixar_services(fram);
+          pprop.$copy = false;
         }
 
         pprop.$inyect = inyect;
@@ -72,11 +79,8 @@
 
             }, f_fc.ChargeTime);
         }
-        fram.Service = Service;
-        fram.Controller = Controller;
-        fram.Debug = Debug;
-        fram.Using = Using;
-        fram.Config = Config;
+
+
 
         return fram;
 
@@ -97,12 +101,39 @@
         function Debug() {
             self.Debug();
         }
+        function makerSimpleService(type)
+        {
+          return f_s(type,self, function (base) {
+              base.maker.Inyection(base,base.maker.FinderService);
+          });
+        }
 
-        function Service(name, inyects, fun) {
-            var service = f_s('',self, function (base) {
-                base.maker.Inyection(base,base.maker.FinderService);
-            });
-            service.Service(name, inyects, fun);
+        function Service(data) {
+
+            if(arguments.length == 3)
+            {
+              var service = makerSimpleService('');
+              service.Service(data, arguments[1], arguments[2]);
+
+            }
+
+            else if(arguments.length == 1)
+            {
+              var service;
+              if(data.Config)
+              {
+                service = makerSimpleService('extension');
+                service.Config = data.Config;
+                makerExetnsionService(service);
+              }else {
+                service = makerSimpleService('');
+              }
+              if(!typeof data.Define == 'function')console.error('service: ',data.Name,' not have define function declarated');
+
+              service.Service(data.Name,data.Depends,data.Define);
+
+            }
+
             return fram;
         }
 
@@ -144,46 +175,8 @@
             {
                 var args = ['extension',self,psing.cursor.$data.init];
                 var srv = psing.cursor.$data.class.apply(this,args);
-                srv.extension = {};
-                srv.extension.$methods={};
-                srv.extension.$vars = {};
-                srv.extension.$vars.CurrentConfigApp = null;
 
-                srv.extension.$methods.FindAllByType=function(type,result){
-                  if(publicattrs[type])
-                  srv.Root().ForAll(function(v,r){
-                    if(v.HasType(publicattrs[type].type))
-                      {
-                        var ob= {};
-                        for (var p of publicattrs[type].attrs)
-                        {
-                          ob[p] = v[p];
-                        }
-                        r.push(ob);
-                      }
-                  },result);
-                  else console.error(type+' Not exist! ');
-                }
-
-                srv.extension.$methods.FindByNameAndType=function (name,type) {
-                  var val = null;
-                  if(publicattrs[type])
-                  srv.Root().ForAll(function (v) {
-
-                        if(v.HasType(publicattrs[type].type)&& v.Name == name)
-                        {
-                          var ob= {};
-                          for (var p of publicattrs[type].attrs)
-                          {
-                            ob[p] = v[p];
-                          }
-                          val = ob;
-                          return -1;
-                        }
-                  });
-                  else console.error(type+' Not exist! ');
-                  return val;
-                };
+                makerExetnsionService(srv);
 
                 srv.extension.$methods.EmiterOnReady = function () {
                   srv.Root().EmiterOnReady();
@@ -218,6 +211,51 @@
           }
           console.error('error in using arguments!');
 
+        }
+
+
+        function makerExetnsionService(srv){
+          srv.extension = {};
+          srv.extension.$config = fram.Config;
+          srv.extension.$methods={};
+          srv.extension.$vars = {};
+          srv.extension.$vars.CurrentConfigApp = null;
+
+          srv.extension.$methods.FindAllByType=function(type,result){
+            if(publicattrs[type])
+            srv.Root().ForAll(function(v,r){
+              if(v.HasType(publicattrs[type].type))
+                {
+                  var ob= {};
+                  for (var p of publicattrs[type].attrs)
+                  {
+                    ob[p] = v[p];
+                  }
+                  r.push(ob);
+                }
+            },result);
+            else console.error(type+' Not exist! ');
+          }
+
+          srv.extension.$methods.FindByNameAndType=function (name,type) {
+            var val = null;
+            if(publicattrs[type])
+            srv.Root().ForAll(function (v) {
+
+                  if(v.HasType(publicattrs[type].type)&& v.Name == name)
+                  {
+                    var ob= {};
+                    for (var p of publicattrs[type].attrs)
+                    {
+                      ob[p] = v[p];
+                    }
+                    val = ob;
+                    return -1;
+                  }
+            });
+            else console.error(type+' Not exist! ');
+            return val;
+          };
         }
     };
     //Object logic
@@ -736,7 +774,7 @@
                 {
                   if(cntrl.Containers)
                   {
-                    cntrl.Containers.each(function (v) {
+                    cntrl.Containers.each(function (v) {                       
                         var text = $(this).html().replace(';[','{{');
                         text = text.replace('];','}}');
                         $(this).html(text);
@@ -822,6 +860,61 @@
 
         };
         return cntrl;
+    }
+    //FRIXAR SERVICES:
+    function frixar_services(fram){
+      fram.Service({
+        Name:'$ajax',
+        Depends:[],
+        Config:function (){
+          function AddParams(rq){
+            if(rq.params)
+            {
+              var params = '';
+              for(var p in rq.params)
+              {
+                params+='?'+p+'='+params[p];
+              }
+              rq.url+=params;
+            }
+          }
+          return{
+            http:function(rq){
+              AddParams(rq);
+              $.ajax(rq);
+           },
+            get:function(rq){
+              rq.method='GET';
+              this.http(rq);
+            },
+            post:function(rq){
+              rq.method='POST';
+              this.http(rq);
+            },
+            put:function(rq){
+              rq.method='PUT';
+              this.http(rq);
+            },
+            rjson:function (rq) {
+              var sc = rq.success;
+              function nsc(data){
+                sc(JSON.parse(data));
+              }
+              rq.success = nsc;
+              this.http(rq);
+            }
+          };
+        },
+        Define:function(){
+          return{
+            http:this.Config.http,
+            get:this.Config.get,
+            post:this.Config.post,
+            put:this.Config.put,
+            rjson:this.Config.rjson
+          };
+        }
+      });
     }
     return {framework:frixar , packageFactory:frixarPackage};
 }));
